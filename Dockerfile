@@ -104,7 +104,7 @@ RUN rpm -ivh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.
       yum -y --setopt=tsflags=noscripts remove libffi-devel && \
       yum -y erase '*-devel' && \
       yum -y erase 'perl-*' && \
-      yum -y erase m4 make cpp cmake postgresql93 glibc-headers && \
+      yum -y erase m4 make cpp cmake glibc-headers && \
       yum clean all && \
       rm -rf /usr/include /usr/local/include /usr/local/src /usr/share/doc \
              /usr/sbin/{glibc_post_upgrade.x86_64,sln} /usr/share/gnupg/help*.txt
