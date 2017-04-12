@@ -2,6 +2,8 @@ FROM centos:7
 LABEL maintainer "Mikko Rauhala <mikko@meteo.fi>"
 
 ENV SMARTMET_DEVEL=0 \
+    NEONS_WETODB_PASSWORD=password \
+    RADON_WETODB_PASSWORD=password \
     MAKEFLAGS="-j8"
 
 RUN rpm -ivh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm && \
@@ -59,6 +61,12 @@ RUN rpm -ivh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.
     cmake -DBUILD_SHARED_LIBS=OFF -G"Unix Makefiles" . && \
     make $MAKEFLAGS && make install && \
 
+# newbase
+    cd /usr/local/src && \
+    git clone https://github.com/fmidev/smartmet-library-newbase.git && \
+    cd smartmet-library-newbase && \
+    make  && make install && \
+
 # ldconfig
     echo "/usr/local/lib/" > /etc/ld.so.conf.d/local.conf && \
     echo "/usr/lib/oracle/11.2/client64/lib" > /etc/ld.so.conf.d/oracle.conf && ldconfig -v && \
@@ -78,12 +86,7 @@ RUN rpm -ivh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.
     make $MAKEFLAGS && \
     make install  && \
 
-# newbase
-    cd /usr/local/src && \
-    git clone https://github.com/fmidev/smartmet-library-newbase.git && \
-    cd smartmet-library-newbase && \
-    make  && make install && \
-
+# himan
    cd /usr/local/src && \
     git clone https://github.com/fmidev/himan.git && \
     cd himan/himan-lib && \
